@@ -1,12 +1,13 @@
 # 📌 개요
 이 프로젝트는 TypeScript와 Express 교육을 위한 자료입니다.
 
-이 Repository를 fork하고 코드를 수정해 Example Website와 동일한 백엔드를 구축합니다.
+이 Repository를 fork하고 코드를 수정해 Example Website와 동일한 백엔드를 구축하는 것이 과제입니다.
 
 [설명 및 과제](/2025-03-22-15-28.pdf)
 
 [Example Website](https://edu.techceo.kr/)
 
+만든이: skykhs3(김현수)
 
 # 1. NVM 설치
 NVM(Node Version Manager) 설치 방법은 **Linux**, **Mac**, **Windows** 별로 다릅니다.
