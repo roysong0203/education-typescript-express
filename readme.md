@@ -1,7 +1,10 @@
 # 📌 개요
 이 프로젝트는 TypeScript와 Express 교육을 위한 자료입니다.
+
 이 Repository를 fork하고 코드를 수정해 Example Website와 동일한 백엔드를 구축합니다.
+
 [설명 및 과제](/2025-03-22-15-28.pdf)
+
 [Example Website](https://edu.techceo.kr/)
 
 
