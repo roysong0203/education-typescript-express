@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "target": "ES6",
+    "module": "CommonJS",
+    "outDir": "./dist",
+    "rootDir": "../",
+    "baseUrl": "./",
+    "strict": true,
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "paths":{
+      "@shared/*": ["../shared/src/*"]
+    }
+  },
+  "include": ["src/**/*", "../shared/src/**/*"],
+  "exclude": ["node_modules"]
+}

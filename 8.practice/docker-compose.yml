@@ -1,0 +1,25 @@
+services:
+  dev-backend:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+    ports:
+      - "4000:4000"
+    environment:
+      - REACT_APP_API_URL=https://edu.techceo.kr
+      - NODE_APP_API_URL=https://api.edu.techceo.kr
+    command: /bin/sh -c "npm install && npm run build && npm run start"
+
+  dev-frontend:
+    image: node:22
+    working_dir: /app
+    volumes:
+      - ./frontend:/app
+    ports:
+      - "3000:3000"
+    environment:
+      - VITE_REACT_APP_API_URL=https://edu.techceo.kr
+      - VITE_NODE_APP_API_URL=https://api.edu.techceo.kr
+    command: /bin/sh -c "npm install && npm run dev -- --host"
+

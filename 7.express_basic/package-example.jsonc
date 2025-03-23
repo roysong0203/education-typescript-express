@@ -1,0 +1,65 @@
+{
+  // 패키지 이름 (소문자로 작성, 공백 불가, 하이픈(-) 사용 가능)
+  "name": "my-awesome-project",
+
+  // 현재 패키지 버전 (형식: MAJOR.MINOR.PATCH)
+  "version": "1.0.0",
+
+  // 프로젝트 설명 (NPM 패키지 검색 시 표시됨)
+  "description": "A sample Node.js project",
+
+  // 엔트리 파일 (보통 index.js, require() 할 때 참조됨)
+  "main": "index.js",
+
+  // 실행할 수 있는 npm 명령어 목록 (npm run <script> 형태로 실행)
+  "scripts": {
+    // `npm start` 실행 시 실행할 명령어
+    "start": "node index.js",
+
+    // `npm test` 실행 시 실행할 명령어
+    "test": "jest",
+
+    // `npm run build` 실행 시 빌드 실행
+    "build": "webpack --mode production"
+  },
+
+  // 배포할 때 포함되는 패키지 (실행 시 필수 의존성)
+  "dependencies": {
+    "express": "^4.18.2", // 웹 프레임워크
+    "mongoose": "^7.0.0"  // MongoDB ODM 라이브러리
+  },
+
+  // 개발 중에만 필요한 패키지 (테스트, 빌드 도구 등)
+  "devDependencies": {
+    "jest": "^29.0.0",   // 테스트 프레임워크
+    "webpack": "^5.0.0"  // 번들러
+  },
+
+  // 프로젝트에서 요구하는 최소 Node.js 버전
+  "engines": {
+    "node": ">=16.0.0"
+  },
+
+  // Git 저장소 정보 (패키지 소스 코드 저장 위치)
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/username/my-awesome-project.git"
+  },
+
+  // NPM 검색 시 유용한 키워드 목록
+  "keywords": ["nodejs", "express", "backend"],
+
+  // 패키지 작성자 정보
+  "author": "John Doe",
+
+  // 라이선스 정보 (MIT, Apache-2.0, GPL-3.0 등 설정 가능)
+  "license": "MIT",
+
+  // 버그 신고 URL (보통 GitHub Issues 링크)
+  "bugs": {
+    "url": "https://github.com/username/my-awesome-project/issues"
+  },
+
+  // 프로젝트 공식 홈페이지나 README 링크
+  "homepage": "https://github.com/username/my-awesome-project#readme"
+}

@@ -1,0 +1,30 @@
+{
+  "dependencies": {
+    "@types/cors": "^2.8.17",
+    "cors": "^2.8.5",
+    "express": "^4.21.2",
+    "module-alias": "^2.2.3",
+    "zod": "^3.24.2"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.22.0",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.13.10",
+    "eslint": "^9.22.0",
+    "globals": "^16.0.0",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "tsconfig-paths": "^4.2.0",
+    "typescript": "^5.8.2",
+    "typescript-eslint": "^8.26.1"
+  },
+  "scripts": {
+    "dev": "nodemon --ext ts --exec ts-node -r tsconfig-paths/register src/index.ts",
+    "start": "node -r module-alias/register dist/backend/src/index.js",
+    "build": "tsc",
+    "lint": "eslint src --ext .ts"
+  },
+  "_moduleAliases": {
+    "@shared": "./dist/shared/src"
+  }
+}
