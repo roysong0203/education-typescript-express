@@ -39,7 +39,7 @@ shortUrlRouter.post("/", (req: Request, res: Response) => {
     do {
       shortCode = Math.random().toString(36).slice(2, 6);
     }
-    while (mappingTable[shortCode]);
+    while (mappingTable && mappingTable[shortCode]);
 
     const result = {
       originalUrl,
@@ -47,7 +47,7 @@ shortUrlRouter.post("/", (req: Request, res: Response) => {
     };
     mappingTable[shortCode] = result;
 
-    res.json({ shortCode });
+    res.json({ mappingTable });
   } catch (error) {
     console.error("Failed to generate short code:", error);
     res.status(500).json({ error: "Failed to generate short code" });
@@ -63,7 +63,18 @@ shortUrlRouter.get("/stats", (req: Request, res: Response) => {
    */
 
   try {
-    res.json(mappingTable);
+    const mappingTableSchema = z.record(z.object({
+      originalUrl: z.string().url(),
+      visits: z.number().int().nonnegative()
+    }));
+    const parsedMappingTable = mappingTableSchema.safeParse(mappingTable);
+
+    if (!parsedMappingTable.success) {
+      res.status(500).json({ error: "Failed to parse mappingTable" });
+      return;
+    }
+
+    res.json(parsedMappingTable.data);
   } catch (error) {
     console.error("Failed to parse mappingTable:", error);
     res.status(500).json({ error: "Failed to parse mappingTable" });
