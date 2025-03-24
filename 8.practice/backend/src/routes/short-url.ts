@@ -1,5 +1,6 @@
 import express, { Request, Response } from "express";
 import { IMappingTable } from "@shared/schema";
+import { z } from "zod";
 const shortUrlRouter = express.Router();
 const mappingTable: IMappingTable = {};
 
@@ -24,7 +25,29 @@ shortUrlRouter.post("/", (req: Request, res: Response) => {
    * 5. { shortCode }를 JSON으로 응답합니다.
    */
   try {
-    res.json({});
+    const bodySchema = z.object({
+      originalUrl: z.string().url()
+    });
+    const safeBody = bodySchema.safeParse(req.body);
+    if (!safeBody.success) {
+      res.status(400).json({ error: "Invalid URL" });
+      return;
+    }
+    const { originalUrl } = safeBody.data;
+
+    let shortCode: string;
+    do {
+      shortCode = Math.random().toString(36).slice(2, 6);
+    }
+    while (mappingTable[shortCode]);
+
+    const result = {
+      originalUrl,
+      visits: 0
+    };
+    mappingTable[shortCode] = result;
+
+    res.json({ shortCode });
   } catch (error) {
     console.error("Failed to generate short code:", error);
     res.status(500).json({ error: "Failed to generate short code" });
