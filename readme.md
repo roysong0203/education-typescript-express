@@ -5,7 +5,7 @@
 
 **[설명 및 과제](/slides.pdf)**
 
-테스트할 수 있는 **[프론트엔드 웹사이트](https://edu.techceo.kr/)**를 제공하며,
+테스트할 수 있는 **[프론트엔드 웹사이트](https://edu.techceo.kr/)** 를 제공하며,
 
 Repository에서 백엔드의 스켈레톤 코드 또한 제공합니다.
 
