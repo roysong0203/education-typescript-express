@@ -1,5 +1,7 @@
 import express, { Request, Response } from "express";
 import { IMappingTable } from "@shared/schema";
+import { allowCorsHeaders } from "src/middlewares/cors";
+import { generateRandomString } from "src/utils";
 import { z } from "zod";
 const shortUrlRouter = express.Router();
 const mappingTable: IMappingTable = {};
@@ -26,28 +28,27 @@ shortUrlRouter.post("/", (req: Request, res: Response) => {
    */
   try {
     const bodySchema = z.object({
-      originalUrl: z.string().url()
+      originalURL: z.string().url()
     });
     const safeBody = bodySchema.safeParse(req.body);
     if (!safeBody.success) {
       res.status(400).json({ error: "Invalid URL" });
       return;
     }
-    const { originalUrl } = safeBody.data;
+    const { originalURL } = safeBody.data;
 
     let shortCode: string;
     do {
-      shortCode = Math.random().toString(36).slice(2, 6);
-    }
-    while (mappingTable && mappingTable[shortCode]);
+      shortCode = generateRandomString();
+    } while (shortCode in mappingTable);
 
     const result = {
-      originalUrl,
+      originalUrl: originalURL,
       visits: 0
     };
     mappingTable[shortCode] = result;
 
-    res.json({ mappingTable });
+    res.json({ shortCode });
   } catch (error) {
     console.error("Failed to generate short code:", error);
     res.status(500).json({ error: "Failed to generate short code" });
@@ -95,7 +96,15 @@ shortUrlRouter.get("/", (req: Request, res: Response) => {
    * 4. 지정되지 않은 모든 에러 상황에서는 `{ error: string }` 형식의 JSON과 함께 500 상태 코드를 응답하세요.
    */
   try {
-    res.json({});
+    const { shortCode } = req.query;
+
+    if(typeof shortCode !== "string" || !(shortCode in mappingTable)) {
+      res.status(404).sendFile("404.html", { root: "public" });
+      return;
+    }
+
+    mappingTable[shortCode].visits++;
+    res.redirect(mappingTable[shortCode].originalUrl);
   } catch (error) {
     console.error("Failed to redirect:", error);
     res.status(500).json({ error: "Failed to redirect" });
