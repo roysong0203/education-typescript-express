@@ -1,0 +1,41 @@
+name: CI - Build and Check
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📦 Checkout repository
+        uses: actions/checkout@v3
+
+      - name: 🔧 Use Node.js 22
+        uses: actions/setup-node@v3
+        with:
+          node-version: 22
+
+      - name: 📁 Install shared dependencies
+        working-directory: ./8.practice/shared
+        run: npm install
+
+      - name: 📁 Install backend dependencies & build
+        working-directory: ./8.practice/backend
+        run: |
+          npm install
+          npm run build
+
+      - name: 📁 Install frontend dependencies & build
+        working-directory: ./8.practice/frontend
+        run: |
+          npm install
+          npm run build
+
+      - name: ✅ Done!
+        run: echo "Build succeeded for shared, backend, and frontend."
