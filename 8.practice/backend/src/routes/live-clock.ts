@@ -1,4 +1,4 @@
-import {} from "@shared/schema";
+import { apiRequest002, apiResponse003 } from "@shared/schema";
 import { Router, Request, Response } from "express";
 
 const liveClockRouter = Router();
@@ -24,7 +24,28 @@ liveClockRouter.post("/", async (req: Request, res: Response) => {
    * 5. 지정되지 않은 모든 에러 상황에서는 `{ error: string }` 형식의 JSON과 함께 500 상태 코드를 응답하세요.
    */
   try {
-    res.json({});
+    const safeUrlBody = apiRequest002.safeParse(req.body);
+    if (!safeUrlBody.success) {
+      res.status(400).json({ error: "Invalid URL" });
+      return;
+    }
+    const { url } = safeUrlBody.data;
+
+    const response = await fetch(url, { method: "GET", redirect: "manual" });
+
+    const Date = response.headers.get("Date");
+    const safeServerTimeBody = apiResponse003.safeParse({ serverTime: Date });
+    if (!safeServerTimeBody.success) {
+      res.status(500).json({ error: "Invalid server time" });
+      return;
+    }
+
+    const { serverTime } = safeServerTimeBody.data;
+    if (serverTime === null) {
+      res.status(500).json({ error: "Server time is null" });
+      return;
+    }
+    res.json({ serverTime: serverTime });
   } catch (error) {
     console.error("Fetch Error:", error);
     res.status(500).json({ error: "Failed to fetch the URL" });
